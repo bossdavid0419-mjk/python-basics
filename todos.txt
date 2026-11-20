@@ -1,2 +1,0 @@
-운동가기|False
-2|False
