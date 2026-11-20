@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# 에디터
+.vscode/
+
+# 생성된 파일
+*.pdf
