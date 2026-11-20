@@ -74,9 +74,9 @@ while True:
     choice = input("번호를 선택하세요: ")
 
     if choice == "1":
-        show_todos()
-    elif choice == "2":
         add_todo()
+    elif choice == "2":
+        show_todos()
     elif choice == "3":
         complete_todo()
     elif choice == "4":
