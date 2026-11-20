@@ -81,9 +81,13 @@ def delete_todo():
     save_todos()
 
 def save_todos():
-    with open("todos.txt", "w", encoding="utf-8") as file:
-        for todo in todos:
-            file.write(f"{todo['title']}|{todo['done']}\n")
+    try:
+        with open("todos.txt", "w", encoding="utf-8") as file:
+            for todo in todos:
+                file.write(f"{todo['title']}|{todo['done']}\n")
+    except OSError:
+        print("할 일을 저장하는 데 실패했습니다.")
+
 
 def load_todos():
     try:    # 이렇게 try와 except를 사용해서 해당 루프에는 오류가 있을 수도 있으니 생략하고 코드를 돌린다는 의미야.
@@ -92,14 +96,16 @@ def load_todos():
                 line = line.strip()
                 if line == "":
                     continue
+                try:
+                    title, done = line.split("|")
+                    done = done == "True"
 
-                title, done = line.split("|")
-                done = done == "True"
-
-                todo = {
-                    "title": title,
-                    "done": done
-                }
+                    todo = {
+                        "title": title,
+                        "done": done
+                    }
+                except ValueError:
+                    continue
                 todos.append(todo)
     except FileNotFoundError:   # except 뒤에는 어떤 오류를 무시할건지 작성하면 돼.
         print("저장된 할 일 파일이 없어 새로 시작합니다.")
@@ -122,4 +128,4 @@ while True:
         print("프로그램을 종료합니다.")
         break
     else:
-        print("잘못된 선택입니다.")
+        print("잘못된 메뉴 번호입니다.")
