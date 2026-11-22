@@ -115,7 +115,7 @@ def save_todos():
 
 
 def load_todos():
-    try:    # 이렇게 try와 except를 사용해서 해당 루프에는 오류가 있을 수도 있으니 생략하고 코드를 돌린다는 의미야.
+    try:    # try 안에서 그 오류가 나면 except 코드를 대신 실행한다
         with open("todos.txt", "r", encoding="utf-8") as file:
             for line in file:
                 line = line.strip()
@@ -168,16 +168,5 @@ while True:
     show_menu()
     choice = input("번호를 선택하세요: ")
 
-    if choice == "1":
-        show_todos()
-    elif choice == "2":
-        add_todo()
-    elif choice == "3":
-        complete_todo()
-    elif choice == "4":
-        delete_todo()
-    elif choice == "5":
-        print("프로그램을 종료합니다.")
+    if run_menu(choice):
         break
-    else:
-        print("잘못된 메뉴 번호입니다.")
