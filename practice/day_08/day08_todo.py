@@ -9,6 +9,14 @@ def show_menu():
     print("4. 할 일 삭제")
     print("5. 종료")
 
+def make_todo(title):
+    todo = {
+        "title": title,
+        "done": False
+    }
+
+    return todo
+
 def add_todo():
     title = input("할 일을 입력하세요: ").strip()
 
@@ -16,44 +24,69 @@ def add_todo():
         print("할 일 내용을 입력해 주세요.")
         return
 
-    todo = {
-        "title": title,
-        "done": False
-    }
+    todo = make_todo(title)
 
     todos.append(todo)
     print("할 일이 추가되었습니다.")
 
     save_todos()
 
+def count_done_todos():
+    done_count = 0
+    for todo in todos:
+        if todo["done"]:
+            done_count += 1
+    return done_count
+
 def show_todos():
     if len(todos) == 0:
         print("할 일이 없습니다.")
         return
-    else:
-        print(f"전체 할 일: {len(todos)}개")
+    
+    print(f"전체 할 일: {len(todos)}개")
+    print(f"완료된 할 일: {count_done_todos()}개")
 
     print("할 일 목록:")
     for i, todo in enumerate(todos):
         status = "완료" if todo["done"] else "미완료"
         print(f"{i + 1}. {todo['title']} ({status})")
 
-def complete_todo():
+def get_number(message):
+    try:
+        number = int(input(message))
+        return number
+    except ValueError:
+        return None
+
+def is_valid_number(number):
+    if number < 1 or number > len(todos):
+        return False
+    return True
+
+def select_todo_number(message):
     show_todos()
 
     if len(todos) == 0:
-        return
+        return None
+    number = get_number(message)
 
-    try:
-        number = int(input("완료할 할 일 번호를 입력하세요: "))
-    except ValueError:
+    if number is None:
         print("숫자를 입력해 주세요.")
-        return
+        return None
 
-    if number < 1 or number > len(todos):
+    if not is_valid_number(number):
         print("잘못된 번호입니다.")
-        return
+        return None
 
+    return number
+
+
+def complete_todo():
+    number = select_todo_number("완료할 할 일 번호를 입력하세요: ")
+
+    if number is None:
+        return
+    
     if todos[number - 1]["done"]:
         print("이미 완료된 할 일입니다.")
     else:
@@ -62,19 +95,11 @@ def complete_todo():
         save_todos()
 
 def delete_todo():
-    show_todos()
+    number = select_todo_number("삭제할 할 일 번호를 입력하세요: ")
 
-    if len(todos) == 0:
+    if number is None:
         return
-    try:
-        number = int(input("삭제할 할 일 번호를 입력하세요: "))
-    except ValueError:
-        print("숫자를 입력해 주세요.")
-        return
-    if number < 1 or number > len(todos):
-        print("잘못된 번호입니다.")
-        return
-
+    
     removed = todos.pop(number - 1)
     print(f"'{removed['title']}' 할 일이 삭제되었습니다.")
 
@@ -98,6 +123,8 @@ def load_todos():
                     continue
                 try:
                     title, done = line.split("|")
+                    if done != "True" and done != "False":
+                        continue 
                     done = done == "True"
 
                     todo = {
@@ -106,11 +133,36 @@ def load_todos():
                     }
                 except ValueError:
                     continue
+
                 todos.append(todo)
     except FileNotFoundError:   # except 뒤에는 어떤 오류를 무시할건지 작성하면 돼.
         print("저장된 할 일 파일이 없어 새로 시작합니다.")
 
 load_todos()
+
+def run_menu(choice):
+    if choice == "1":
+        show_todos()
+        return False
+
+    if choice =="2":
+        add_todo()
+        return False
+
+    if choice =="3":
+        complete_todo()
+        return False
+
+    if choice =="4":
+        delete_todo()
+        return False
+
+    if choice == "5":
+        print("프로그램을 종료합니다.")
+        return True
+
+    print("잘못된 메뉴 번호입니다.")
+    return False
 
 while True:
     show_menu()
