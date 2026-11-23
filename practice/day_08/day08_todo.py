@@ -7,7 +7,10 @@ def show_menu():
     print("2. 할 일 추가")
     print("3. 할 일 완료 표시")
     print("4. 할 일 삭제")
-    print("5. 종료")
+    print("5. 완료된 할 일 보기")
+    print("6. 미완료 할 일 보기")
+    print("7. 할 일 검색")        
+    print("0. 종료")
 
 def make_todo(title):
     todo = {
@@ -31,12 +34,28 @@ def add_todo():
 
     save_todos()
 
-def count_done_todos():
+def count_done_todos(todos):
     done_count = 0
     for todo in todos:
         if todo["done"]:
             done_count += 1
     return done_count
+
+def count_not_done_todos(todos):
+    not_done_count = 0
+    for todo in todos:
+        if not todo["done"]:
+            not_done_count += 1
+    return not_done_count
+
+def count_all_todos(todos):
+    return len(todos)
+
+def get_done_todos(todos):
+    return [todo for todo in todos if todo["done"]]
+
+def get_not_done_todos(todos):
+    return [todo for todo in todos if not todo["done"]]
 
 def show_todos():
     if len(todos) == 0:
@@ -44,7 +63,7 @@ def show_todos():
         return
     
     print(f"전체 할 일: {len(todos)}개")
-    print(f"완료된 할 일: {count_done_todos()}개")
+    print(f"완료된 할 일: {count_done_todos(todos)}개")
 
     print("할 일 목록:")
     for i, todo in enumerate(todos):
@@ -138,7 +157,29 @@ def load_todos():
     except FileNotFoundError:   # except 뒤에는 어떤 오류를 무시할건지 작성하면 돼.
         print("저장된 할 일 파일이 없어 새로 시작합니다.")
 
-load_todos()
+def search_todos(todos, keyword):
+    return [todo for todo in todos if keyword in todo["title"]]
+
+def print_todo_list(todo_list):
+    if len(todo_list) == 0:
+        print("해당하는 할 일이 없습니다.")
+        return
+
+    for i, todo in enumerate(todo_list):
+        status = "완료" if todo["done"] else "미완료"
+        print(f"{i + 1}. {todo['title']} ({status})")
+
+def search_menu():
+    keyword = input("검색할 단어를 입력하세요: ").strip()
+
+    if keyword == "":
+        print("검색어를 입력해 주세요.")
+        return
+
+    results = search_todos(todos, keyword)
+    print_todo_list(results)    
+    
+    
 
 def run_menu(choice):
     if choice == "1":
@@ -157,12 +198,26 @@ def run_menu(choice):
         delete_todo()
         return False
 
-    if choice == "5":
+    if choice =="5":
+        print_todo_list(get_done_todos(todos))
+        return False
+
+    if choice =="6":
+        get_not_done_todos(todos)
+        return False
+
+    if choice =="7":
+        search_menu()
+        return False
+
+    if choice == "0":
         print("프로그램을 종료합니다.")
         return True
 
     print("잘못된 메뉴 번호입니다.")
     return False
+
+load_todos()
 
 while True:
     show_menu()
