@@ -5,4 +5,4 @@ def get_even_numbers(numbers):
             result.append(number)
     return result
 result = get_even_numbers([1,2,3,4,5,6])
-print(result)
+print(result)   
