@@ -4,7 +4,7 @@
 > 매일 **개념 정리 노트**와 **직접 푼 실습 코드**를 함께 남기고 있습니다.
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
-![Study Days](https://img.shields.io/badge/학습일-Day%209-success?style=flat-square)
+![Study Days](https://img.shields.io/badge/학습일-Day%2012-success?style=flat-square)
 ![Last Commit](https://img.shields.io/github/last-commit/bossdavid0419-mjk/python-basics?style=flat-square)
 
 <br>
@@ -22,6 +22,9 @@
 | 7 | 함수 | 매개변수, 반환값, 함수 안에서 함수 호출 | [📝](./notes/day07.md) | [💻](./practice/day_07) |
 | 8 | **⭐ 미니 프로젝트** | 할 일 관리 프로그램 (파일 저장 기능 포함) | [📝](./notes/day08.md) | [💻](./practice/day_08) |
 | 9 | 파일 다루기 | `open()`, `with`, `r`/`w`/`a` 모드 | [📝](./notes/day09.md) | [💻](./practice/day_09) |
+| 10 | 예외 처리 | `try`/`except`, `ValueError`, `FileNotFoundError`, `OSError` | [📝](./notes/day10.md) | [💻](./practice/day_08) |
+| 11 | 함수로 코드 정리 | 매개변수·반환값, `None`, 중복 코드를 함수로 분리 | [📝](./notes/day11.md) | [💻](./practice/day_11) |
+| 12 | 필터와 검색 | 리스트 컴프리헨션, 문자열 `in`, 완료/미완료 필터 | [📝](./notes/day12.md) | [💻](./practice/day_12) |
 
 <br>
 
@@ -33,7 +36,8 @@
 - 할 일 하나를 `{"title": ..., "done": ...}` 딕셔너리로 관리
 - 💾 **파일 저장:** 바뀔 때마다 `todos.txt`에 저장하고, 실행할 때 다시 불러와서 껐다 켜도 목록이 유지됨 *(Day 9 파일 입출력 적용)*
 - 🛡 **예외 처리:** 숫자가 아닌 입력은 `try/except ValueError`로, 저장 파일이 없을 때는 `FileNotFoundError`로 처리
-- 기능마다 함수를 따로 나누고, `while` 메뉴 루프로 계속 실행
+- 🔎 **필터와 검색:** 완료/미완료 할 일만 보기, 제목으로 검색 *(Day 12 리스트 컴프리헨션 적용)*
+- 🧩 **함수로 정리:** 입력·검사·출력을 작은 함수로 나누고, 메뉴 처리는 `run_menu()`로 분리 *(Day 11)*
 
 ```bash
 python practice/day_08/day08_todo.py
@@ -43,16 +47,20 @@ python practice/day_08/day08_todo.py
 
 ## 🗺 앞으로의 계획 (2026.11 ~ 2027.02)
 
-| 시기 | 주제 | 상태 |
-|---|---|:---:|
-| 1~2주차 | 딕셔너리 심화, 함수 기초 | ✅ |
-| 3~4주차 | 함수 심화, 파일 입출력, 예외 처리 | 🔄 |
-| 5~6주차 | 할 일 관리 프로그램 완성 및 정리 | 🔄 |
-| 7~8주차 | 자료구조·알고리즘 기초 (스택, 큐, 해시) | ⬜ |
-| 9~10주차 | 정렬, 이분탐색, BFS·DFS 기초 | ⬜ |
-| 11~12주차 | 웹·DB 기초 (FastAPI 또는 Django, SQLite) | ⬜ |
-| 13~14주차 | 로컬 AI·RAG 기초 (Ollama, PDF 추출, Chroma) | ⬜ |
-| 15~16주차 | **최종 프로젝트:** 근거 기반 로컬 RAG 앱 | ⬜ |
+할 일 관리 프로그램을 Python → C++ → 웹 API 순서로 키우고, 이후 RAG와 ROS 2(자율주행 기초)로 넘어갑니다. C++과 ROS 2는 별도 저장소에 기록할 예정입니다.
+
+| 기간 | 주제 | 결과물 | 상태 |
+|---|---|---|:---:|
+| 11/2 ~ 11/24 | Python 기초 (Day 1~12) | 할 일 관리 프로그램 v1 | ✅ |
+| 11/23 ~ 11/29 | Python 마무리: 클래스·JSON·모듈·테스트 | 할 일 관리 프로그램 v2 | 🔄 |
+| 11/30 ~ 12/13 | C++ 기초, 포인터, 객체지향, STL | 할 일 관리 프로그램 C++ 버전 | ⬜ |
+| 12/14 ~ 12/20 | 자료구조·알고리즘 (스택, 큐, 해시, 정렬, 이분탐색) | 자료구조 구현 + 문제 기록 | ⬜ |
+| 12/21 ~ 12/27 | Linux·운영체제 기초, Ubuntu 개발 환경 | Ubuntu 개발 환경 | ⬜ |
+| 12/28 ~ 1/15 | AI 부트캠프 (LLM, 피지컬 AI 시뮬레이션, 헬스케어 로봇) | 부트캠프 결과물 정리 | ⬜ |
+| 1/18 ~ 1/24 | 웹·DB 기초 (FastAPI, SQLite) | 할 일 관리 프로그램 v3 (REST API) | ⬜ |
+| 1/25 ~ 1/31 | 로컬 AI·RAG 기초 (Ollama, PDF 추출, Chroma) | DriveNotes lite | ⬜ |
+| 2/1 ~ 2/21 | ROS 2 기초 (노드·토픽, C++ 노드, 센서 데이터) | ROS 2 미니 프로젝트 | ⬜ |
+| 2/22 ~ 2/28 | 운영체제·DB 정리, 포트폴리오, 복학 준비 | GitHub 포트폴리오 | ⬜ |
 
 ✅ 완료 · 🔄 진행 중 · ⬜ 예정
 
