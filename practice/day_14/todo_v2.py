@@ -1,3 +1,4 @@
+import json
 class Task:
     def __init__(self, title):
         self.title = title
@@ -13,7 +14,13 @@ class Task:
         status = "(완료)" if self.done else "(미완료)"
         return f"{self.title} {status}"
 
+    def to_dict(self):
+        return {"title": self.title, "done": self.done}
 
+def dict_to_task(data):
+    task = Task(data["title"])
+    task.done = data["done"]
+    return task
 
 class TodoList:
     def __init__(self):
@@ -155,33 +162,28 @@ def search_menu():
 
 def save_todos():
     try:
-        with open("todos_v2.txt", "w", encoding="utf-8") as file:
-            for task in todo_list.tasks:
-                file.write(f"{task.title}|{task.done}\n")
+         data = [task.to_dict() for task in todo_list.tasks]
+         with open("todos_v2.json", "w", encoding="utf-8") as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
     except OSError:
         print("할 일을 저장하는 데 실패했습니다.")
 
 def load_todos():
     try:    # try 안에서 그 오류가 나면 except 코드를 대신 실행한다
-        with open("todos_v2.txt", "r", encoding="utf-8") as file:
-            for line in file:
-                line = line.strip()
-                if line == "":
-                    continue
-                try:
-                    title, done = line.split("|")
-                    if done != "True" and done != "False":
-                        continue 
-                    done = done == "True"
+        with open("todos_v2.json", "r", encoding="utf-8") as file:
+            data = json.load(file)
 
-                    task = Task(title)
-                    task.done = done
-                except ValueError:
+            for item in data:
+                try:
+                    task = dict_to_task(item)
+                except KeyError:
                     continue
 
                 todo_list.tasks.append(task)
     except FileNotFoundError:   # except 뒤에는 어떤 오류를 무시할건지 작성하면 돼.
         print("저장된 할 일 파일이 없어 새로 시작합니다.")
+    except json.JSONDecodeError:
+        print("저장 파일이 손상되어 새로 시작합니다.")
 
 
 def run_menu(choice):
