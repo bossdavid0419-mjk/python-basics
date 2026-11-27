@@ -1,8 +1,0 @@
-import json
-def save_todos():
-    try:
-         data = [task.to_dict() for task in todo_list.tasks]
-         with open("todos_v2.json", "w", encoding="utf-8") as file:
-            json.dump(data, file, ensure_ascii=False, indent=4)
-    except OSError:
-        print("할 일을 저장하는 데 실패했습니다.")
